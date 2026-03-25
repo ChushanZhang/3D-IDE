@@ -270,7 +270,7 @@
     <h2>Method</h2>
     <figure class="figure">
       <img src="static/framework.png" alt="3D-IDE Framework Overview">
-      <figcaption><strong>The 3D-IDE framework.</strong> Instead of injecting coarse, lossy 3D coordinates, we use a privileged training module (green box) detached at inference for <strong>zero latency</strong>. This module forces the model to learn a fine-grained 3D representation implicitly via two parallel gradient signals: a geometric gradient from a weak depth validator and a global gradient from a frozen foundation model.</figcaption>
+      <figcaption><strong>The 3D-IDE framework.</strong> Instead of injecting coarse, lossy 3D coordinates, we use a privileged training module (green box) detached at inference for <strong>zero latency</strong>. This module forces the model to learn a fine-grained 3D representation implicitly via two parallel gradient signals: a geometric gradient from a depth validator and a global gradient from a frozen foundation model.</figcaption>
     </figure>
     <p class="abstract-text">
       3D-IDE is guided by the <strong>Implicit Geometric Emergence Principle (IGEP)</strong>. Rather than treating geometry as a mandatory input, we regard it as privileged supervision available only during training. A lightweight, training-only geometric validator and a global 3D teacher provide fine-grained and scene-level geometric signals that push the visual encoder to embed 3D structure directly in its tokens, without modifying the inference-time interface. The composite training objective is:
