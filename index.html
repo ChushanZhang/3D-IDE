@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D-IDE: 3D Implicit Depth Emergent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --dark: #1e293b;
+      --gray: #64748b;
+      --light: #f8fafc;
+      --border: #e2e8f0;
+      --max-w: 900px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      color: var(--dark);
+      line-height: 1.7;
+      background: #fff;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: linear-gradient(180deg, var(--light) 0%, #fff 100%);
+    }
+    .hero h1 {
+      font-family: 'Noto Serif', serif;
+      font-size: 2.4em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .hero .venue {
+      font-size: 1.1em;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .authors {
+      font-size: 1.05em;
+      margin-bottom: 6px;
+    }
+    .authors a { color: var(--dark); text-decoration: none; }
+    .authors a:hover { color: var(--primary); }
+    .authors sup { font-size: 0.7em; color: var(--gray); }
+    .affiliations {
+      font-size: 0.88em;
+      color: var(--gray);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .affiliations sup { font-size: 0.75em; }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-dark {
+      background: var(--dark);
+      color: #fff;
+    }
+    .btn-dark:hover { background: #334155; }
+    .btn-outline {
+      background: #fff;
+      color: var(--dark);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* Sections */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    section { padding: 40px 0; }
+    section h2 {
+      font-family: 'Noto Serif', serif;
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* Abstract */
+    .abstract-text {
+      font-size: 1.0em;
+      color: #334155;
+      text-align: justify;
+    }
+
+    /* Highlights */
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .highlight-card {
+      text-align: center;
+      padding: 28px 16px;
+      border-radius: 12px;
+      background: var(--light);
+      border: 1px solid var(--border);
+    }
+    .highlight-card .num {
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+    .highlight-card .label {
+      font-size: 0.88em;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    /* Figures */
+    .figure {
+      margin: 24px 0;
+      text-align: center;
+    }
+    .figure img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .figure figcaption {
+      font-size: 0.88em;
+      color: var(--gray);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+    }
+    thead { background: var(--light); }
+    th, td {
+      padding: 10px 12px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    th { font-weight: 600; font-size: 0.85em; color: var(--gray); text-transform: uppercase; letter-spacing: 0.03em; }
+    tr:hover { background: #f1f5f9; }
+    .best { font-weight: 700; color: var(--primary); }
+    .group-label td {
+      font-weight: 600;
+      background: #f1f5f9;
+      text-align: left;
+      font-size: 0.85em;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .ours td { background: #eff6ff; font-weight: 600; }
+
+    /* BibTeX */
+    .bibtex-box {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82em;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.85em;
+      cursor: pointer;
+      font-family: 'Noto Sans', sans-serif;
+    }
+    .copy-btn:hover { background: var(--light); border-color: var(--primary); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--gray);
+      font-size: 0.85em;
+      border-top: 1px solid var(--border);
+      margin-top: 20px;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .hero h1 { font-size: 1.6em; }
+      .highlights { grid-template-columns: 1fr; }
+      .btn-row { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <h1>3D-IDE: 3D Implicit Depth Emergent</h1>
+  <div class="venue">CVPR 2026</div>
+  <div class="authors">
+    <a href="#">Chushan Zhang</a><sup>1</sup>,
+    <a href="#">Ruihan Lu</a><sup>2</sup>,
+    <a href="#">Jinguang Tong</a><sup>1</sup>,
+    <a href="#">Yikai Wang</a><sup>3*</sup>,
+    <a href="#">Hongdong Li</a><sup>1*</sup>
+  </div>
+  <div class="affiliations">
+    <sup>1</sup>Australian National University &nbsp;&nbsp;
+    <sup>2</sup>The University of Queensland &nbsp;&nbsp;
+    <sup>3</sup>Beijing Normal University<br>
+    <span style="font-size:0.92em;">* Corresponding authors</span>
+  </div>
+  <div class="btn-row">
+    <a class="btn btn-dark" href="#">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+      Paper
+    </a>
+    <a class="btn btn-outline" style="cursor:default; opacity:0.6;" title="Coming soon">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      Code (Coming Soon)
+    </a>
+    <a class="btn btn-outline" href="#">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      arXiv
+    </a>
+    <a class="btn btn-outline" href="#">
+      <svg viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+      Model
+    </a>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Abstract -->
+  <section>
+    <h2>Abstract</h2>
+    <p class="abstract-text">
+      Leveraging 3D information within Multimodal Large Language Models (MLLMs) has recently shown significant advantages for indoor scene understanding. However, existing methods, including those using explicit ground-truth 3D positional encoding and those grafting external 3D foundation models for implicit geometry, struggle with the trade-off in 2D-3D representation fusion, leading to suboptimal deployment. To this end, we propose <strong>3D-Implicit Depth Emergence</strong>, a method that reframes 3D perception as an emergent property derived from geometric self-supervision rather than explicit encoding. Our core insight is the <strong>Implicit Geometric Emergence Principle (IGEP)</strong>: by strategically leveraging privileged geometric supervision through mechanisms like a fine-grained geometry validator and global representation constraints, we construct an information bottleneck. This bottleneck forces the model to maximize the mutual information between visual features and 3D structures, allowing 3D awareness to emerge naturally within a unified visual representation. Unlike existing approaches, our method enables 3D perception to emerge implicitly, disentangling features in dense regions and, crucially, eliminating depth and pose dependencies during inference with zero latency overhead.
+    </p>
+  </section>
+
+  <!-- Highlights -->
+  <section>
+    <h2>Key Results</h2>
+    <div class="highlights">
+      <div class="highlight-card">
+        <div class="num">+6.36%</div>
+        <div class="label">Higher 3D grounding accuracy<br>(vs. explicit 3D input methods)</div>
+      </div>
+      <div class="highlight-card">
+        <div class="num">55%</div>
+        <div class="label">Faster inference<br>(RGB-only, no 3D inputs needed)</div>
+      </div>
+      <div class="highlight-card">
+        <div class="num">12.86%</div>
+        <div class="label">Fewer parameters<br>(vs. VG-LLM-8B)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Framework -->
+  <section>
+    <h2>Method</h2>
+    <figure class="figure">
+      <img src="static/framework.png" alt="3D-IDE Framework Overview">
+      <figcaption><strong>Figure 1. The 3D-IDE framework.</strong> Instead of injecting coarse, lossy 3D coordinates, we use a privileged training module (green box) that is detached at inference for <strong>zero latency</strong>. This module forces the model to learn a fine-grained 3D representation implicitly via two parallel gradient signals: a geometric gradient from a weak depth validator and a global gradient from a frozen foundation model guidance.</figcaption>
+    </figure>
+    <p class="abstract-text">
+      3D-IDE is guided by the <strong>Implicit Geometric Emergence Principle (IGEP)</strong>. Rather than treating geometry as a mandatory input, we regard it as privileged supervision available only during training. A lightweight, training-only geometric validator and a global 3D teacher provide fine-grained and scene-level geometric signals that push the visual encoder to embed 3D structure directly in its tokens, without modifying the inference-time interface. The composite training objective is:
+    </p>
+    <p style="text-align:center; margin: 16px 0; font-size: 1.1em; font-family: 'Noto Serif', serif;">
+      L<sub>total</sub> = L<sub>ce</sub> + L<sub>geometry</sub> + L<sub>cross-view</sub> + L<sub>global</sub>
+    </p>
+  </section>
+
+  <!-- Comparison Figure -->
+  <section>
+    <h2>Approach Comparison</h2>
+    <figure class="figure">
+      <img src="static/comparison.png" alt="Comparison of 3D-aware designs">
+      <figcaption><strong>Figure 2. Comparison of 3D-aware designs for video-LLMs.</strong> (a) Explicit coordinate injection fuses 2D features with coarse 3D positional embeddings and requires 3D inputs at inference. (b) Dual encoders separately process RGB and geometry, then fuse their outputs. (c) 3D-IDE uses a single visual encoder trained so that 3D awareness emerges implicitly, enabling efficient RGB-only inference.</figcaption>
+    </figure>
+  </section>
+
+  <!-- Main Results -->
+  <section>
+    <h2>Main Results</h2>
+    <p style="margin-bottom:16px; color: var(--gray); font-size: 0.95em;">Performance comparison on 3D scene understanding benchmarks. Bold indicates best result within group.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left;">Method</th>
+            <th>3D Inputs</th>
+            <th colspan="2">ScanRefer</th>
+            <th colspan="2">Multi3DRefer</th>
+            <th colspan="2">Scan2Cap</th>
+            <th colspan="2">ScanQA</th>
+            <th>SQA3D</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>Acc@.25</th>
+            <th>Acc@.5</th>
+            <th>F1@.25</th>
+            <th>F1@.5</th>
+            <th>C@.5</th>
+            <th>B-4@.5</th>
+            <th>C</th>
+            <th>EM</th>
+            <th>EM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-label"><td colspan="11">Generalists (with 3D geometric inputs)</td></tr>
+          <tr><td style="text-align:left;">Video-3D LLM*</td><td>-</td><td>53.7</td><td>47.8</td><td>46.0</td><td>42.4</td><td>31.5</td><td>29.9</td><td>99.7</td><td>29.5</td><td>58.6</td></tr>
+          <tr><td style="text-align:left;">VG LLM-4B</td><td>VGGT</td><td>53.5</td><td>47.5</td><td>-</td><td>-</td><td>78.6</td><td>40.9</td><td>-</td><td>-</td><td>57.0</td></tr>
+          <tr><td style="text-align:left;">VG LLM-8B</td><td>VGGT</td><td>57.6</td><td>50.9</td><td>-</td><td>-</td><td>80.0</td><td class="best">41.5</td><td>-</td><td>-</td><td>57.9</td></tr>
+          <tr><td style="text-align:left;">VID-LLM</td><td>VGGT</td><td>50.1</td><td>46.7</td><td>47.2</td><td>42.9</td><td class="best">81.5</td><td>40.6</td><td>101.9</td><td>27.6</td><td>57.3</td></tr>
+          <tr class="ours">
+            <td style="text-align:left;">3D-IDE (Ours)</td>
+            <td>None</td>
+            <td class="best">60.9</td>
+            <td class="best">54.5</td>
+            <td class="best">59.8</td>
+            <td class="best">54.9</td>
+            <td>79.0</td>
+            <td>40.7</td>
+            <td class="best">102.1</td>
+            <td class="best">29.8</td>
+            <td class="best">59.2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Efficiency -->
+  <section>
+    <h2>Inference Efficiency</h2>
+    <p style="margin-bottom:16px; color: var(--gray); font-size: 0.95em;">3D-IDE achieves over 2x faster inference and higher generation throughput while using less GPU memory.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left;">Method</th>
+            <th>Params (B)</th>
+            <th>Mean Time (s)</th>
+            <th>Tokens/s</th>
+            <th>Peak Mem</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="text-align:left;">VG LLM-8B</td><td>9.25</td><td>3.60</td><td>4.32</td><td>21.10 GB</td></tr>
+          <tr class="ours"><td style="text-align:left;">3D-IDE (Ours)</td><td class="best">8.06</td><td class="best">1.61</td><td class="best">10.72</td><td class="best">18.35 GB</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Ablation -->
+  <section>
+    <h2>Ablation Study</h2>
+    <p style="margin-bottom:16px; color: var(--gray); font-size: 0.95em;">Effect of each IGEP component on ScanRefer and Multi3DRefer.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Global</th>
+            <th>Geometric</th>
+            <th>Cross-view</th>
+            <th colspan="2">ScanRefer</th>
+            <th colspan="2">Multi3DRefer</th>
+          </tr>
+          <tr>
+            <th></th><th></th><th></th>
+            <th>F1@.25</th><th>F1@.5</th><th>Acc@.25</th><th>Acc@.5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>-</td><td>-</td><td>-</td><td>53.7</td><td>47.8</td><td>46.0</td><td>42.4</td></tr>
+          <tr><td>&#10003;</td><td>-</td><td>-</td><td>56.9</td><td>50.8</td><td>55.6</td><td>51.3</td></tr>
+          <tr><td>&#10003;</td><td>&#10003; scratch</td><td>-</td><td>59.8</td><td>53.3</td><td>59.7</td><td>54.3</td></tr>
+          <tr class="ours"><td>&#10003;</td><td>&#10003; scratch</td><td>&#10003;</td><td class="best">60.9</td><td class="best">54.5</td><td class="best">59.8</td><td class="best">54.9</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Qualitative -->
+  <section>
+    <h2>Qualitative Results</h2>
+    <figure class="figure">
+      <img src="static/qualitative.png" alt="Qualitative results on 3D vision-language tasks">
+      <figcaption><strong>Figure 3. Qualitative results on three 3D vision-language tasks.</strong> 3D-IDE produces accurate localizations and descriptions that respect the underlying 3D scene context, despite relying only on RGB video at inference.</figcaption>
+    </figure>
+  </section>
+
+  <!-- BibTeX -->
+  <section>
+    <h2>Citation</h2>
+    <div class="bibtex-box" id="bibtex">
+      <button class="copy-btn" onclick="copyBibtex()">Copy</button>
+@article{zhang2025ide,
+  title     = {3D-IDE: 3D Implicit Depth Emergent},
+  author    = {Zhang, Chushan and Lu, Ruihan and Tong, Jinguang and Wang, Yikai and Li, Hongdong},
+  journal   = {CVPR},
+  year      = {2026}
+}</div>
+  </section>
+
+</main>
+
+<footer>
+  <p>3D-IDE &copy; 2025 &nbsp;|&nbsp; <a href="https://github.com/ChushanZhang/3D-IDE">GitHub</a> &nbsp;|&nbsp; Template inspired by <a href="https://nerfies.github.io">Nerfies</a></p>
+</footer>
+
+<script>
+function copyBibtex() {
+  const text = document.getElementById('bibtex').innerText.replace('Copy\n', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+
+</body>
+</html>
