@@ -1,0 +1,19 @@
+* text=auto eol=lf
+
+# Binary assets (avoid line-ending normalization)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.pt binary
+*.pth binary
+*.ckpt binary
+*.bin binary
+*.npz binary
+*.npy binary
+*.so binary
+*.jar binary
+*.gz binary
+*.zip binary
+*.tgz binary

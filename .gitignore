@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+*.egg
+*.pyd
+*.pyo
+*.whl
+.venv/
+.env
+.env.*
+.ipynb_checkpoints/
+
+# IDE/OS
+.DS_Store
+.idea/
+.vscode/
+.claude/
+
+# Logs
+*.log
+logs/
+train_eval.sh
+eval_understanding__refer_210.sh
+train_understanding__refer_210.sh
+
+# Checkpoints / outputs
+ckpt/
+wandb/
+visualization_results/
+results/
+previous_rst/
+temp_eval/
+batch_eval_output.txt
+
+# Data / large assets
+/data
+processed-eval-question/
+VGGT_checkpoints/
+*.pt
+*.pth
+*.pdf
+!docs/static/paper.pdf
+!static/paper.pdf
+
+# Test cache
+.pytest_cache/
+
+# Local cache
+.cache/
+
+# Archives / debug
+archive/
+DEBUG_*/
+debug_*/
+debug_archive/
+debug_files/
+
+# Temporary
+*.tmp
+*.bak
+
+# Build
+build/
+dist/
