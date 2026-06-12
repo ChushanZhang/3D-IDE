@@ -93,6 +93,9 @@ pip install -e transformers
 
 ## Data Preparation
 
+> [!TIP]
+> **Shortcut — download everything pre-packaged.** Instead of following the steps below, you can download our complete, training-ready data from [PoopBear/3D-IDE-data](https://huggingface.co/datasets/PoopBear/3D-IDE-data) on Hugging Face. It contains the exact byte-identical copies used in our experiments: all processed annotation JSONs (including the re-generated Scan2Cap data), metadata, ScanNet assets (`posed_images`, `mask`, `pcd_with_object_aabbs`), and the pre-extracted VGGT features — plus MD5 manifests so you can verify a locally-prepared copy without re-downloading. See the dataset card there for extraction instructions. If you use it, you can skip steps 1)-2) below and the whole VGGT feature extraction section.
+
 1) **Processed training data**
 - Download from [Hugging Face](https://huggingface.co/datasets/OliverHuang1998/3DRS) and place under `data/`.
 - **Re-generate Scan2Cap data** (required — align the prompt format with VG-LLM):
