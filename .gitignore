@@ -27,9 +27,11 @@ train_understanding__refer_210.sh
 
 # Checkpoints / outputs
 ckpt/
+data/exp/
 wandb/
 visualization_results/
 results/
+_uploads/
 previous_rst/
 temp_eval/
 batch_eval_output.txt
